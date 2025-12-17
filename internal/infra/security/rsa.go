@@ -44,9 +44,6 @@ func NewRSADecrypter(privateKeyPath string) (*RSADecrypter, error) {
 }
 
 func (r *RSADecrypter) Decrypt(encryptedBase64 []byte) (string, error) {
-	// Assuming the input is the raw bytes of the encrypted message (after base64 decode if coming from JSON)
-	// But usually, the handler will decode JSON to bytes or string.
-	// We'll accept []byte here as standard.
 
 	decryptedBytes, err := rsa.DecryptOAEP(
 		sha256.New(),

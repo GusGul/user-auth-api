@@ -15,7 +15,6 @@ type MySQLUserRepository struct {
 }
 
 func NewMySQLUserRepository(db *sql.DB) repository.UserRepository {
-	// Auto-migrate (Simple for this case study)
 	query := `
 	CREATE TABLE IF NOT EXISTS users (
 		id INT AUTO_INCREMENT PRIMARY KEY,
@@ -43,9 +42,6 @@ func (r *MySQLUserRepository) GetByEmail(ctx context.Context, email string) (*do
 	row := r.db.QueryRowContext(ctx, query, email)
 
 	var user domain.User
-	// Simple scan
-	// Note: For simplicity, scanning time into generic variable or using parseTime=true in DSN allows direct scan to time.Time
-	// We enabled parseTime=true in connection string, so we can scan into time.Time directly.
 	err := row.Scan(&user.ID, &user.Email, &user.Password, &user.CreatedAt, &user.UpdatedAt)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {

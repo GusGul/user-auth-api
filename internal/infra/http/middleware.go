@@ -39,7 +39,6 @@ func AuthMiddleware(jwtProvider *security.JWTProvider, next http.HandlerFunc) ht
 			return
 		}
 
-		// Inject user info into context if needed
 		ctx := context.WithValue(r.Context(), "user_id", claims.UserID)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	}
